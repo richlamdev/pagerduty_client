@@ -5,15 +5,15 @@ import argparse
 import sys
 from pathlib import Path
 import re
+import csv
 
 
 def get_services (session, query):
 
-    #session = APISession (api_token)
     services = list(session.iter_all('services', params={'query': query} ))
-    #print (services)
 
     return services
+
 
 def get_service_urls (all_services):
 
@@ -23,18 +23,14 @@ def get_service_urls (all_services):
 
     for service in range (len (all_services)):
         integration_urls.append ( dict (all_services[service]) )
-        #print (json.dumps (integration_urls[service], indent=4, sort_keys=False))
-        #print (json.dumps (integration_urls[service]["integrations"][0]["self"]))
         service_urls.append (json.dumps(integration_urls[service]["integrations"][0]["self"]))
         base_url = "https://api.pagerduty.com/"
         endpoint_url_only.append (re.sub (base_url,"",service_urls[service]))
-        #print (endpoint_url_only[service])
 
     return endpoint_url_only
 
-def get_integration_keys (session, all_integrations):
 
-    #print (json.loads(integration_urls[0]))
+def get_integration_keys (session, all_integrations):
 
     integration_info = []
     integration_keys = []
@@ -42,13 +38,22 @@ def get_integration_keys (session, all_integrations):
 
     for service in range (len (all_integrations)):
         integration_info.append (session.rget (json.loads(all_integrations[service])))
-        #print (json.dumps(integration_info[service],indent=4))
         integration_name.append (integration_info[service]["service"]["summary"])
-        print (integration_name[service])
 
-        #integration_keys.append (integration_info[service]["integration_key"])
-        #print (integration_keys[service])
+        if "integration_key" in integration_info[service]:
+            integration_keys.append (integration_info[service]["integration_key"])
+        else:
+            integration_keys.append (0)
 
+    return integration_name, integration_keys
+
+
+def write_csv_file(header,data,filename):
+
+    with open (filename, "w", encoding='UTF8', newline='') as output_file:
+        writer = csv.writer(output_file)
+        writer.writerow (header)
+        writer.writerows (data)
 
 
 def check_api_key():
@@ -73,7 +78,6 @@ def check_api_key():
         print ()
         token = input ("Enter PagerDuty API key: ")
         key ["pd_api_key"] = token
-
 
         if not pd_folder.exists():
             pd_folder.mkdir (0o700, exist_ok=False)
@@ -100,18 +104,13 @@ def main():
     all_services = get_services(session, "*Network")
 
     integration_urls = get_service_urls (all_services)
-    #print (integration_urls)
 
-    get_integration_keys (session, integration_urls)
+    integration_name, integration_keys = get_integration_keys (session, integration_urls)
 
+    header = ["name", "integration_key"]
+    data = list (zip (integration_name, integration_keys))
 
-    #for service in all_services:
-        #integration_urls[service] = 
-
-    #for service in all_services:
-        #print (service)
-
-    #print ("number of services: " + str(len(all_services)) )
+    write_csv_file(header,data,"data.csv")
 
 
 if __name__ == "__main__":
