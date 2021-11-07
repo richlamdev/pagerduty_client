@@ -55,6 +55,20 @@ def write_csv_file(header,data,filename):
         writer.writerow (header)
         writer.writerows (data)
 
+def output_all_integration_keys(session,args):
+
+    all_services = []
+    integration_urls = []
+    all_services = get_services(session, "*Network")
+    integration_urls = get_service_urls (all_services)
+    integration_name, integration_keys = get_integration_keys (session, integration_urls)
+    header = ["name", "integration_key"]
+    data = list (zip (integration_name, integration_keys))
+    print (args.filename.name)
+    write_csv_file(header,data,args.filename.name)
+
+    pass
+
 
 def check_api_key():
 
@@ -93,24 +107,40 @@ def check_api_key():
 
 def main():
 
-    all_services = []
-    integration_urls = []
 
-    api_token = check_api_key()
-    #print (api_token)
+    parser = argparse.ArgumentParser (add_help=True,
+             description="CLI interface for pagerduty API. \n\nView help page for each command for more information\n\n" +
+             "python3 pd_client.py getkeys -h\n\npython3 pd_client.py setsvc -h\n\npython3 pd_client.py delsvc -h",
+             formatter_class=argparse.RawDescriptionHelpFormatter)
 
-    session = APISession (api_token)
+    subparsers = parser.add_subparsers (help='commands', dest='subparser')
 
-    all_services = get_services(session, "*Network")
+    getkeys_parser = subparsers.add_parser ('getkeys', help="get integration keys; eg: python3 pd_client.py getkeys <output_filename.csv>", description="eg: python3 pd_client.py getkeys <output_filename.csv>")
+    getkeys_parser.add_argument ('filename', type=argparse.FileType('w'), help='get all integration keys from services - csv output', metavar="filename")
+    getkeys_parser.set_defaults (func=output_all_integration_keys)
 
-    integration_urls = get_service_urls (all_services)
+    setsvc_parser = subparsers.add_parser ('setsvc', help="create services; eg: python3 pd_client.py setsvc <input_filename.csv>", description="eg. python3 pd_client.py setsvc <input_filename.csv>\n\n")
+    setsvc_parser.add_argument ('filename', type=argparse.FileType('r'), help='create services via file - service name,escalation policy name,integration_name', metavar="filename")
+    #setsvc_parser.set_defaults (func=set_services)
 
-    integration_name, integration_keys = get_integration_keys (session, integration_urls)
+    delsvc_parser = subparsers.add_parser ('delsvc', help="delete services; eg: python3 pd_client.py delsvc <input_filename.csv>", description="eg: python3 pd_client.py delsvc <input_filename.csv>\n\n")
+    delsvc_parser.add_argument ('filename', type=argparse.FileType('r'), help='delete services via file - one servicename per line', metavar="filename")
+    #delsvc_parser.set_defaults (func=del_services)
 
-    header = ["name", "integration_key"]
-    data = list (zip (integration_name, integration_keys))
+    args = parser.parse_args()
 
-    write_csv_file(header,data,"data.csv")
+    # If there are no arguments to pass, aside from --help (-h) then display help and exit
+    if len(sys.argv) == 1:
+        parser.print_help()
+        parser.exit()
+
+    try:
+        api_token = check_api_key()
+        session = APISession (api_token)
+        args.func (session, args)
+    except AttributeError:
+        parser.print_help()
+        parser.exit()
 
 
 if __name__ == "__main__":
