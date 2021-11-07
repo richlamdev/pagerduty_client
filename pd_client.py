@@ -35,6 +35,7 @@ def get_integration_keys (session, all_integrations):
     integration_info = []
     integration_keys = []
     integration_name = []
+    esc_policy_id = []
 
     for service in range (len (all_integrations)):
         integration_info.append (session.rget (json.loads(all_integrations[service])))
@@ -55,6 +56,7 @@ def write_csv_file(header,data,filename):
         writer.writerow (header)
         writer.writerows (data)
 
+
 def output_all_integration_keys(session,args):
 
     all_services = []
@@ -64,10 +66,34 @@ def output_all_integration_keys(session,args):
     integration_name, integration_keys = get_integration_keys (session, integration_urls)
     header = ["name", "integration_key"]
     data = list (zip (integration_name, integration_keys))
-    print (args.filename.name)
     write_csv_file(header,data,args.filename.name)
 
-    pass
+    print ("Output file saved as: " + args.filename.name)
+
+
+def set_services (session,args):
+
+    print ()
+    print ("set_services")
+    print ()
+    services = list(session.iter_all('services', params={'query': '*Network'}))
+    print (json.dumps(services, indent=4))
+
+    payload = {
+        "id": "AAAAAAA",
+        "name": "FF - test",
+        "escalation_policy":{
+            "id":"AAAAAAA",
+            "type":"escalation_policy_reference"
+        },
+    }
+
+    #create_service = session.rpost ('services', json=payload)
+    #print (create_service)
+
+    print ()
+    print ()
+
 
 
 def check_api_key():
@@ -107,7 +133,6 @@ def check_api_key():
 
 def main():
 
-
     parser = argparse.ArgumentParser (add_help=True,
              description="CLI interface for pagerduty API. \n\nView help page for each command for more information\n\n" +
              "python3 pd_client.py getkeys -h\n\npython3 pd_client.py setsvc -h\n\npython3 pd_client.py delsvc -h",
@@ -121,7 +146,7 @@ def main():
 
     setsvc_parser = subparsers.add_parser ('setsvc', help="create services; eg: python3 pd_client.py setsvc <input_filename.csv>", description="eg. python3 pd_client.py setsvc <input_filename.csv>\n\n")
     setsvc_parser.add_argument ('filename', type=argparse.FileType('r'), help='create services via file - service name,escalation policy name,integration_name', metavar="filename")
-    #setsvc_parser.set_defaults (func=set_services)
+    setsvc_parser.set_defaults (func=set_services)
 
     delsvc_parser = subparsers.add_parser ('delsvc', help="delete services; eg: python3 pd_client.py delsvc <input_filename.csv>", description="eg: python3 pd_client.py delsvc <input_filename.csv>\n\n")
     delsvc_parser.add_argument ('filename', type=argparse.FileType('r'), help='delete services via file - one servicename per line', metavar="filename")
