@@ -1,19 +1,14 @@
 from  pdpyras import APISession
 import json
-import datetime
 import argparse
 import sys
 from pathlib import Path
-import re
 import csv
 
 
 def get_services (session, query):
 
     services = list(session.iter_all('services', params={'query': query} ))
-
-    #with open ("temp.json","w") as outputfile:
-        #json.dump(services,outputfile,indent=4)
 
     return services
 
@@ -26,13 +21,13 @@ def get_service_urls (all_services):
 
     base_url = "https://api.pagerduty.com/"
 
-    # ** This will fail if an integration doesn't exist with the service. **
-    # ** To be fixed later **
+# ** This will fail if an integration record doesn't exist with the service. **
+# ** To be fixed later **
 
     for service in range (len (all_services)):
         integration_urls.append ( dict (all_services[service]) )
         service_urls.append (json.dumps(integration_urls[service]["integrations"][0]["self"]))
-        endpoint_url_only.append (re.sub (base_url,"",service_urls[service]))
+        endpoint_url_only.append (service_urls[service].replace(base_url,''))
 
     return endpoint_url_only
 
@@ -42,7 +37,6 @@ def get_integration_keys (session, all_integrations):
     integration_info = []
     integration_keys = []
     integration_name = []
-    esc_policy_id = []
 
     for service in range (len (all_integrations)):
         integration_info.append (session.rget (json.loads(all_integrations[service])))
@@ -66,64 +60,66 @@ def write_csv_file(header,data,filename):
 
 def output_all_integration_keys(session,args):
 
-    all_services = []
-    integration_urls = []
     all_services = get_services(session, "*")
     integration_urls = get_service_urls (all_services)
     integration_name, integration_keys = get_integration_keys (session, integration_urls)
     header = ["name", "integration_key"]
     data = list (zip (integration_name, integration_keys))
     write_csv_file(header,data,args.filename.name)
-
     print ("Output file saved as: " + args.filename.name)
 
 
 def set_services (session,args):
 
-    print ("input filename: " + args.filename.name)
-    print ()
-    #services = list(session.iter_all('services', params={'query': 'Datadog'}))
-    #print (json.dumps(services, indent=4))
-    #services = list(session.iter_all('services', params={'query': 'ZZ'}))
-    #print (json.dumps(services, indent=4))
-    #services = list(session.iter_all('vendors', params={'query': 'Datadog'}))
-    #print (json.dumps(services, indent=4))
-    #services = list(session.iter_all('vendors', params={'query': 'SolarWinds'}))
-    #print (json.dumps(services, indent=4))
+    with open (args.filename.name, 'r') as inputcsv:
+        csv_reader = csv.DictReader (inputcsv, delimiter=',')
+        data = {}
+        for row in csv_reader:
+            for header, value in row.items():
+                try:
+                    data[header].append(value)
+                except KeyError:
+                    data[header] = [value]
 
+    name = data ['name']
+    description = data ['description']
+    esc_policy_id = data ['esc_policy_id']
+    vendor_id = data ['vendor_id']
 
-    payload = {
-        "name": "*ZZ - test",
-        "description": "created by API",
-        "alert_creation": "create_alerts_and_incidents",
-        "escalation_policy": {
-            "id": "PJVU2EK",      # requires specific escalation ID
-            "type": "escalation_policy_reference"
-        },
-    }
+    for row in range (len(name)):
 
-    create_service = session.rpost ('services', json=payload)
-    #print (json.dumps(create_service, indent=4))
+        payload = {
+            "name": name[row],
+            "description": description[row],
+            "alert_creation": "create_alerts_and_incidents",
+            "escalation_policy": {
+                "id": esc_policy_id[row],   # requires specific escalation ID
+                "type": "escalation_policy_reference"
+            },
+        }
 
-    new_service = create_service['id']
-    integration_path = '/services/' + new_service + '/integrations'
+        create_service = session.rpost ('services', json=payload)
+        integration_path = '/services/' + create_service['id'] + '/integrations'
 
-    #services = list(session.iter_all('services', params={'query': 'ZZ'}))
-    #print (json.dumps(services, indent=4))
+        # query services to review newly created service(s)
+        #services = list(session.iter_all('services', params={'query': '*zz'})
+        #print (json.dumps(services, indent=4))
 
-    solar_int_payload = {
-        "type": "events_api_v2_inbound_integration",
-        "name": "SolarWinds Orion",
-        "vendor": { "type": "vendor_reference", "id": "P4B29MM"} #SolarWinds ID
-    }
+        solar_int_payload = {
+            "type": "events_api_v2_inbound_integration",
+            "name": "SolarWinds Orion",
+            "vendor": { "type": "vendor_reference", "id": vendor_id[row] }
+        }                                                 #SolarWinds ID
 
-    datadog_int_payload = {
-        "type": "events_api_v2_inbound_integration",
-        "name": "Datadog",
-        "vendor": { "type": "vendor_reference", "id": "PAM4FGS"} #Datadog ID
-    }
+        solar_integration = session.rpost (integration_path,
+                                           json=solar_int_payload)
 
-    solar_integration = session.rpost (integration_path, json=solar_int_payload)
+    # potentially needed at a later for datadog integration creation
+    #datadog_int_payload = {
+        #"type": "events_api_v2_inbound_integration",
+        #"name": "Datadog",
+        #"vendor": { "type": "vendor_reference", "id": "PAM4FGS"} #Datadog ID
+    #}
     #solar_integration = session.rpost (integration_path, json=datadog_int_payload)
 
 
@@ -176,7 +172,7 @@ def main():
     getkeys_parser.set_defaults (func=output_all_integration_keys)
 
     setsvc_parser = subparsers.add_parser ('setsvc', help="create services; eg: python3 pd_client.py setsvc <input_filename.csv>", description="eg. python3 pd_client.py setsvc <input_filename.csv>\n\n")
-    setsvc_parser.add_argument ('filename', type=argparse.FileType('w'), help='create services via file - name,escalation policy id', metavar="filename")
+    setsvc_parser.add_argument ('filename', type=argparse.FileType('r'), help='create services via file - name,escalation policy id', metavar="filename")
     setsvc_parser.set_defaults (func=set_services)
 
     delsvc_parser = subparsers.add_parser ('delsvc', help="delete services; eg: python3 pd_client.py delsvc <input_filename.csv>", description="eg: python3 pd_client.py delsvc <input_filename.csv>\n\n")
@@ -184,11 +180,6 @@ def main():
     #delsvc_parser.set_defaults (func=del_services)
 
     args = parser.parse_args()
-
-    # If there are no arguments to pass, aside from --help (-h) then display help and exit
-    if len(sys.argv) == 1:
-        parser.print_help()
-        parser.exit()
 
     try:
         api_token = check_api_key()
