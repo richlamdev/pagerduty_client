@@ -2,4 +2,5 @@
 *.log
 *.pyc
 __pycache__
-*.csv
+rj_escalations.csv
+rj_services.csv

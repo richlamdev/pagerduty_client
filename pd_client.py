@@ -12,6 +12,9 @@ def get_services (session, query):
 
     services = list(session.iter_all('services', params={'query': query} ))
 
+    #with open ("temp.json","w") as outputfile:
+        #json.dump(services,outputfile,indent=4)
+
     return services
 
 
@@ -21,10 +24,14 @@ def get_service_urls (all_services):
     service_urls = []
     endpoint_url_only = []
 
+    base_url = "https://api.pagerduty.com/"
+
+    # ** This will fail if an integration doesn't exist with the service. **
+    # ** To be fixed later **
+
     for service in range (len (all_services)):
         integration_urls.append ( dict (all_services[service]) )
         service_urls.append (json.dumps(integration_urls[service]["integrations"][0]["self"]))
-        base_url = "https://api.pagerduty.com/"
         endpoint_url_only.append (re.sub (base_url,"",service_urls[service]))
 
     return endpoint_url_only
@@ -61,7 +68,7 @@ def output_all_integration_keys(session,args):
 
     all_services = []
     integration_urls = []
-    all_services = get_services(session, "*Network")
+    all_services = get_services(session, "*")
     integration_urls = get_service_urls (all_services)
     integration_name, integration_keys = get_integration_keys (session, integration_urls)
     header = ["name", "integration_key"]
@@ -73,27 +80,51 @@ def output_all_integration_keys(session,args):
 
 def set_services (session,args):
 
+    print ("input filename: " + args.filename.name)
     print ()
-    print ("set_services")
-    print ()
-    services = list(session.iter_all('services', params={'query': '*Network'}))
-    print (json.dumps(services, indent=4))
+    #services = list(session.iter_all('services', params={'query': 'Datadog'}))
+    #print (json.dumps(services, indent=4))
+    #services = list(session.iter_all('services', params={'query': 'ZZ'}))
+    #print (json.dumps(services, indent=4))
+    #services = list(session.iter_all('vendors', params={'query': 'Datadog'}))
+    #print (json.dumps(services, indent=4))
+    #services = list(session.iter_all('vendors', params={'query': 'SolarWinds'}))
+    #print (json.dumps(services, indent=4))
+
 
     payload = {
-        "id": "AAAAAAA",
-        "name": "FF - test",
-        "escalation_policy":{
-            "id":"AAAAAAA",
-            "type":"escalation_policy_reference"
+        "name": "*ZZ - test",
+        "description": "created by API",
+        "alert_creation": "create_alerts_and_incidents",
+        "escalation_policy": {
+            "id": "PJVU2EK",      # requires specific escalation ID
+            "type": "escalation_policy_reference"
         },
     }
 
-    #create_service = session.rpost ('services', json=payload)
-    #print (create_service)
+    create_service = session.rpost ('services', json=payload)
+    #print (json.dumps(create_service, indent=4))
 
-    print ()
-    print ()
+    new_service = create_service['id']
+    integration_path = '/services/' + new_service + '/integrations'
 
+    #services = list(session.iter_all('services', params={'query': 'ZZ'}))
+    #print (json.dumps(services, indent=4))
+
+    solar_int_payload = {
+        "type": "events_api_v2_inbound_integration",
+        "name": "SolarWinds Orion",
+        "vendor": { "type": "vendor_reference", "id": "P4B29MM"} #SolarWinds ID
+    }
+
+    datadog_int_payload = {
+        "type": "events_api_v2_inbound_integration",
+        "name": "Datadog",
+        "vendor": { "type": "vendor_reference", "id": "PAM4FGS"} #Datadog ID
+    }
+
+    solar_integration = session.rpost (integration_path, json=solar_int_payload)
+    #solar_integration = session.rpost (integration_path, json=datadog_int_payload)
 
 
 def check_api_key():
@@ -145,7 +176,7 @@ def main():
     getkeys_parser.set_defaults (func=output_all_integration_keys)
 
     setsvc_parser = subparsers.add_parser ('setsvc', help="create services; eg: python3 pd_client.py setsvc <input_filename.csv>", description="eg. python3 pd_client.py setsvc <input_filename.csv>\n\n")
-    setsvc_parser.add_argument ('filename', type=argparse.FileType('r'), help='create services via file - service name,escalation policy name,integration_name', metavar="filename")
+    setsvc_parser.add_argument ('filename', type=argparse.FileType('w'), help='create services via file - name,escalation policy id', metavar="filename")
     setsvc_parser.set_defaults (func=set_services)
 
     delsvc_parser = subparsers.add_parser ('delsvc', help="delete services; eg: python3 pd_client.py delsvc <input_filename.csv>", description="eg: python3 pd_client.py delsvc <input_filename.csv>\n\n")
