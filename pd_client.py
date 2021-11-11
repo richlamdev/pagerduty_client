@@ -6,6 +6,26 @@ from pathlib import Path
 import csv
 
 
+def get_esc_policies(session,args):
+    """
+    Get all escalation policy ids and write to file.
+    """
+    services = list(session.iter_all('/escalation_policies'))
+
+    with open (args.filename.name, "w") as output_file:
+        json.dump (services, output_file, indent=4)
+
+
+def get_vendors(session,args):
+    """
+    Get all vendor ids and write to file.
+    """
+    services = list(session.iter_all('/vendors'))
+
+    with open (args.filename.name, "w") as output_file:
+        json.dump (services, output_file, indent=4)
+
+
 def get_services (session, query):
     """
     Get integration points, according to query parameter
@@ -238,6 +258,28 @@ def main():
         help='delete services via file - one servicename per line',
         metavar="filename")
     #delsvc_parser.set_defaults (func=del_services)
+
+
+    
+    getvend_parser = subparsers.add_parser ('getvend',
+        help="""get vendor ids; eg: python3 pd_client.py getvend
+             <output_filename.csv>""",
+        description="eg: python3 pd_client.py getkeys <output_filename.csv>")
+    getvend_parser.add_argument ('filename', type=argparse.FileType('w'),
+        help='get all vendor ids - csv output',
+        metavar="filename")
+    getvend_parser.set_defaults (func=get_vendors)
+
+
+    getesc_parser = subparsers.add_parser ('getesc',
+        help="""get escalation policy ids; eg: python3 pd_client.py getesc
+             <output_filename.csv>""",
+        description="eg: python3 pd_client.py getkeys <output_filename.csv>")
+    getesc_parser.add_argument ('filename', type=argparse.FileType('w'),
+        help='get all esclation ids - csv output',
+        metavar="filename")
+    getesc_parser.set_defaults (func=get_esc_policies)
+
 
     args = parser.parse_args()
 
