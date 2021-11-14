@@ -36,7 +36,7 @@ def get_esc_policies(session,args):
         escs.append (JSONObject.default(services_json[serv]))
         esc_name.append (escs[serv].name)
         esc_id.append (escs[serv].id)
-        #print (esc_name[serv] + esc_id[serv])
+        print (esc_name[serv] + "," + esc_id[serv])
 
     with open (args.filename.name, "w") as output_file:
         json.dump (services, output_file, indent=4)
@@ -61,8 +61,35 @@ def get_vendors(session,args):
     """
     services = list(session.iter_all('/vendors'))
 
+    services_json = []
+    for serv in range (len (services)):
+        services_json.append (json.dumps(services[serv], indent=4))
+
+    vends = []
+    vend_name = []
+    vend_id = []
+
+    for serv in range (len (services_json)):
+        vends.append (JSONObject.default(services_json[serv]))
+        vend_name.append (vends[serv].name)
+        vend_id.append (vends[serv].id)
+        print (vend_name[serv] + "," + vend_id[serv])
+
     with open (args.filename.name, "w") as output_file:
         json.dump (services, output_file, indent=4)
+
+    print ()
+    print ("Full JSON data written to file: " + args.filename.name)
+    print ()
+
+    header = ["name", "vendor_id"]
+    data = list (zip (vend_name, vend_id))
+    write_csv_file(header,data,"ids_only_" + args.filename.name)
+
+    print ()
+    print ("Vendor names and ID's only, written to file: " + "ids_only_" 
+          + args.filename.name)
+    print ()
 
 
 def get_services (session, query):
@@ -70,7 +97,6 @@ def get_services (session, query):
     Get integration points, according to query parameter
     Returns list of service objects (json format)
     """
-
     services = list(session.iter_all('services', params={'query': query} ))
 
     return services
@@ -78,18 +104,38 @@ def get_services (session, query):
 
 def get_service_urls (all_services):
     """
-    returns the service url to query to obtain the integration key
+    returns the service url to query to obtain integrations
     """
     integration_urls = []
     service_urls = []
     endpoint_url_only = []
     base_url = "https://api.pagerduty.com/"
 
-    for service in range (len (all_services)):
-        integration_urls.append ( dict (all_services[service]) )
-        service_urls.append (json.dumps(integration_urls[service]
-                            ["integrations"][0]["self"]))
-        endpoint_url_only.append (service_urls[service].replace(base_url,''))
+    #print (json.dumps(all_services, indent=4))
+
+    with open ("temp.csv", "w") as tempfile:
+        json.dump (all_services, tempfile, indent=4)
+
+    all_services_json = [] #convert to JSON with double quotes.
+    for serv in range (len (all_services)):
+        all_services_json.append (json.dumps(all_services[serv], indent=4))
+
+    ints = []
+    int_name = []
+    int_id = []
+    service_ints = []
+
+    for serv in range (len (all_services_json)):
+        ints.append (JSONObject.default(all_services_json[serv]))
+        int_name.append (ints[serv].name)
+        int_id.append (ints[serv].id)
+
+        # Get all integrations, in case there is more than one
+        for ints_with_service in range (len (ints[serv].integrations)):
+            service_ints.append (ints[serv].integrations[ints_with_service].self)
+            endpoint_url_only.append (service_ints[serv])
+
+    #print ("total endpoint: " + str (len (endpoint_url_only)))
 
     return endpoint_url_only
 
@@ -103,15 +149,14 @@ def get_integration_keys (session, all_integrations):
     integration_keys = []
     integration_name = []
 
-    for service in range (len (all_integrations)):
-        integration_info.append (session.rget (json.loads(all_integrations
-                                [service])))
+    for service in range (len(all_integrations)):
+        integration_info.append (session.rget (all_integrations[service]))
         integration_name.append (integration_info[service]["service"]
                                 ["summary"])
 
         if "integration_key" in integration_info[service]:
             integration_keys.append (integration_info[service]
-                                    ["integration_key"])
+            ["integration_key"])
         else:
             integration_keys.append (0)
 
@@ -137,20 +182,21 @@ def output_all_integration_keys(session,args):
     all_services = get_services(session, "")
 
     service_without_integration = []
+    # identify services without integrations and remove
+    for serv in range (len (all_services)):
+        if not all_services[serv]["integrations"]:
+            service_without_integration.append (serv)
 
-    for service in range (len (all_services)):
-        if not all_services[service]["integrations"]:
-            service_without_integration.append (service)
-
-    for x in range (len (service_without_integration)):
-        temp = (service_without_integration[x])
-        print ("removing service to exam " + all_services[temp]["name"]
-              + " as it has no integration")
+    for serv in range (len (service_without_integration)):
+        temp = service_without_integration[serv]
+        print ("Removing service(s) to examine that have no integration:")
+        print ("\t" +  all_services[temp]["name"])
         del all_services[temp]
 
     integration_urls = get_service_urls (all_services)
+
     integration_name, integration_keys = get_integration_keys(session,
-                                                             integration_urls)
+                                                              integration_urls)
     header = ["name", "integration_key"]
     data = list (zip (integration_name, integration_keys))
     write_csv_file(header,data,args.filename.name)
@@ -298,7 +344,6 @@ def main():
         metavar="filename")
     #delsvc_parser.set_defaults (func=del_services)
 
-
     getvend_parser = subparsers.add_parser ('getvend',
         help="""get vendor ids; eg: python3 pd_client.py getvend
              <output_filename.csv>""",
@@ -308,7 +353,6 @@ def main():
         metavar="filename")
     getvend_parser.set_defaults (func=get_vendors)
 
-
     getesc_parser = subparsers.add_parser ('getesc',
         help="""get escalation policy ids; eg: python3 pd_client.py getesc
              <output_filename.csv>""",
@@ -317,7 +361,6 @@ def main():
         help='get all esclation ids - csv output',
         metavar="filename")
     getesc_parser.set_defaults (func=get_esc_policies)
-
 
     args = parser.parse_args()
 
