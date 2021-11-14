@@ -1,9 +1,20 @@
-from  pdpyras import APISession
+from pdpyras import APISession
 import json
 import argparse
 import sys
 from pathlib import Path
 import csv
+from types import SimpleNamespace
+
+
+class JSONObject():
+    """
+    Create an object from JSON.
+    While not actually required; enables convenient reference to JSON values
+    as object.
+    """
+    def default(json_data):
+        return json.loads (json_data, object_hook = lambda d: SimpleNamespace(**d))
 
 
 def get_esc_policies(session,args):
@@ -12,8 +23,36 @@ def get_esc_policies(session,args):
     """
     services = list(session.iter_all('/escalation_policies'))
 
+    services_json = [] #convert to JSON with double quotes.
+    for serv in range (len (services)):
+        services_json.append (json.dumps(services[serv], indent=4))
+
+    escs = []
+    esc_name = []
+    esc_id = []
+    templist = []
+
+    for serv in range (len (services_json)):
+        escs.append (JSONObject.default(services_json[serv]))
+        esc_name.append (escs[serv].name)
+        esc_id.append (escs[serv].id)
+        #print (esc_name[serv] + esc_id[serv])
+
     with open (args.filename.name, "w") as output_file:
         json.dump (services, output_file, indent=4)
+
+    print ()
+    print ("Full JSON data written to file: " + args.filename.name)
+    print ()
+
+    header = ["name", "escalation_id"]
+    data = list (zip (esc_name, esc_id))
+    write_csv_file(header,data,"ids_only_" + args.filename.name)
+
+    print ()
+    print ("Escalation names and ID's only, written to file: " + "ids_only_" 
+          + args.filename.name)
+    print ()
 
 
 def get_vendors(session,args):
@@ -260,7 +299,6 @@ def main():
     #delsvc_parser.set_defaults (func=del_services)
 
 
-    
     getvend_parser = subparsers.add_parser ('getvend',
         help="""get vendor ids; eg: python3 pd_client.py getvend
              <output_filename.csv>""",
