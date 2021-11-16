@@ -135,7 +135,9 @@ def get_service_urls (all_services):
             service_ints.append (ints[serv].integrations[ints_with_service].self)
             endpoint_url_only.append (service_ints[serv])
 
-    #print ("total endpoint: " + str (len (endpoint_url_only)))
+    #temp fix to ensure each endpoint is queried only once.
+    #todo, determine why some integrations are returning duplicate values
+    endpoint_url_only = sorted (set(endpoint_url_only))
 
     return endpoint_url_only
 
@@ -306,7 +308,6 @@ def main():
         setsvc - create service
         delsv - delete server - to be implemented
     """
-
     parser = argparse.ArgumentParser (add_help=True,
              description="""CLI interface for pagerduty API.
              \n\nView help page for each command for more information
