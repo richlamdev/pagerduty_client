@@ -22,15 +22,14 @@ This is a basic CLI PagerDuty client.  This was written with narrow scope of fun
 
 ### Obtain existing services with integration keys:
 
-python3 pd_client.py getkeys <filename>
+python3 pd_client.py getkeys <output_filename>
 
 eg:
-
 ````python3 pd_client.py getkeys allkeys.csv````
 
 ### Set services with SolarWinds integration keys:
 
-python3 pd_client.py setsvc <filename>
+python3 pd_client.py setsvc <input_filename>
 
 eg:
 ````python3 pd_client.py setsvc set_input.csv````
@@ -45,4 +44,17 @@ Name, Description, Escalation Policy ID, Vendor ID
 TBC - not yet inmplemented
 
 
+### Get Vendor ID's:
 
+python3 pd_client.py getvend <output_filename>
+
+eg:
+````python3 pd_client.py getvend vend_ids.csv````
+
+
+### Get Escalation Policy ID's:
+
+python3 pd_client.py getesc <output_filename>
+
+eg:
+````python3 pd_client.py getesc esc_ids.csv````
