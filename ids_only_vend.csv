@@ -1,0 +1,439 @@
+name,vendor_id
+Amazon CloudWatch,PZQ6AUS
+Datadog,PAM4FGS
+Nagios,P5ZAJ2D
+New Relic,PQFCJER
+Pingdom,PQXZU5E
+Amazon GuardDuty,PH27SPX
+AWS CloudTrail,PDSJRA7
+AWS Personal Health Dashboard,PZGYQKH
+AWS Security Hub,PF0BK6R
+Custom Event Transformer,PCJ0EFQ
+Microsoft Azure,PT6OIQO
+Sensu,PF8FPF1
+Splunk,PZ1KXAK
+Zabbix (3.0 and 4.0),PJOGQ4Q
+Zendesk API,PEP6E4P
+HipChat to PagerDuty,PHSEEEB
+Slack to PagerDuty (Legacy),PRYWPH4
+ACME,P6VZMQO
+AdmanTIC,PRLFT2B
+Airbrake,P4K037I
+AlertBot,PHKAR7T
+AlertFox,PZ48H9W
+AlertSite UXM,PJVSJDA
+AlienVault ,PPBP4BZ
+Allma,PF38215
+Amazon DevOps Guru,PCDTU1U
+Anodot,PWT86TQ
+Ansible,PYASTC5
+Apex Ping,PNC4J42
+API Fortress Connector,PFV9NSZ
+Apica,PXPGF42
+Appaegis,P0V03EV
+AppBeat,PL4K6VP
+AppDynamics,P3H374T
+AppFirst,PWBOZ20
+AppFormix,PUWP7US
+AppOptics,P9CBJS2
+AppViewX,PO90VLJ
+Apteligent,P3Y5QJX
+Aqua Security,PK009MI
+Arrcus ArcIQ,PEYXNHV
+Aruba Networks,PSO75BM
+askSpoke,PTAXMSM
+Assertible,P7ZNI5X
+Atatus,P7VR88I
+Atlassian Bitbucket Pipelines,PWIFWNW
+Autonomous Incident and Root Cause Detection,PAQ5EZ4
+Autotask,P8JX75F
+Auvik,P2G2KVB
+Ayehu NG  - IT Process Automation & Orchestration,PWYQH3N
+Azuqua,PHG0I08
+Backstage,PRO19CT
+beSECURE,PHKI9TY
+BigPanda,PYZQ7GE
+BlazeMeter (API Monitoring),P9B4ZVN
+Blink,P1QHCDQ
+Blitz,P6X3IPB
+Blue Matador,PK8L37E
+Blue Triangle,PSBB46B
+borgmatic,PBFFZVR
+Brubeck,PJAJGX4
+Bucky,PYFMET1
+Bugsnag,PAQBJ1G
+Buildkite,P84FMLT
+CA UIM,P1IDP65
+Cacti,PQWF3WV
+Carbonator Windows Service,PNL2COL
+Cased,PWUNSOE
+Catchpoint,PF9KMXH
+Cavirin,P162WON
+Centreon,P2XTQUP
+CFEngine,P7S8Y10
+Check_MK,PJ9V3VE
+Checkly,PZYG7VE
+Chef,PI5SXZW
+Chronosphere,PLBCSSE
+Circonus,PBAZLIU
+Cisco Webex,PSMYKGZ
+Cloud Insights,P5F4FJ7
+Cloudability,PMV8EG0
+Cloudaware,PQGF5ZF
+CloudCheckr,PDCY7WK
+CloudFabrix AIOps,PYKH5JR
+Cloudflare,PHE8CHO
+CloudMonix,PWQ2W8V
+CloudQA,P8PJSX3
+CloudWisdom,PGM1F4C
+Cmd,PY4R7TX
+Cohesity,PRPGRIQ
+collectd,P035A7I
+Collectl,PBDFZ3P
+ConnectWise ,PWEU99I
+Consul,PD2AORA
+Contrast Security ,P9TSH0Z
+Control-M Integration,PEQIVPH
+Conviva Video AI Alerts,PVWKGM8
+CopperEgg,PUZG3IH
+Coralogix,POYLQ0J
+Cronitor,PES90RF
+CrowdStrike Falcon Enterprise Security,PISSZCG
+Curity Identity Server,PXC53FL
+Custom Change Event Transformer,PQ64Q6M
+Cyara CX Assurance Platform Integration,PUFG550
+Cyral,PVDTMB3
+Dead Man's Snitch,PNFYFVU
+DeferPanic,PA8OQ5E
+Demisto,PYX1L85
+Desk.com,P6EJ1EE
+Detecta,P8G3NEQ
+Device42,PPSKSJS
+DivvyCloud,P4XYQYX
+DNS Check,P6BS5QP
+DNSmonitor,P6FDSR0
+Dynatrace,P7GAO2Q
+Dynatrace AppMon,PIQ7E1Z
+ECmanaged,P8GRWKK
+eG Enterprise,P0VKIO6
+Elastic Alerts,PULN1LU
+Email,PBPQJ1M
+Endtest,PX5FYQG
+Epsagon,PXR7N60
+Errorception,PJ1CK3B
+Events API v1,PTS9BY7
+Evertz,PICO7UQ
+Evident.io,PV900PN
+Evolven Change Analytics for PagerDuty,P7LUCVD
+Expel,PKTD9ZH
+Fabrix,PCGCV6E
+Fairwinds Insights,P0QBGDH
+Feroot,P1SWTLI
+finally.io,PZZ4TCO
+Firebase,P632ZW5
+FireEye,PO9OF5T
+First2Know,PQ47DCP
+Flapjack,P5QD2HH
+Flowdock,PULJXOY
+Foglight,PISW0A8
+Foxpass,PM3H1EA
+Freshdesk ,P52BINU
+Freshservice,PIE7GM0
+Freshservice (deprecated),PFR99YV
+Front,PZZLHOX
+Geckoboard,PCA2LXU
+GitGuardian Internal Monitoring,P9FSJVL
+GitHub,PFZ9O9D
+GitLab,PANW8GL
+Gitter,PAT3WXH
+Glip,PIEZU2M
+Google Voice,PZR113B
+GoSquared,P2KFHAO
+graphite-beacon,PEBYTDA
+Graylog,P3P7XBB
+Gremlin,PD7UCI0
+Groundwork Nagios,PPRWKHU
+Gusto,PGA2G0B
+HackerOne,P5304U1
+Halo ITSM,PWYC39H
+HappyFox,P3K8HPO
+Harness,PC2J2W3
+HashiCorp,PMS34Y5
+Heal,P9YN8TM
+Healthchecks.io,PAW96FC
+Honeybadger,PXXYLW5
+Honeycomb,PQ7Y96P
+Hornbill,PRWE7B7
+Hoss,PU7TZNG
+HP Service Manager ,PYAVHZX
+HP SiteScope,PEPV0NJ
+Hubot,P0MSMC0
+Humio,PRBC01M
+Hund,PJ6174P
+IBM Bluemix,PKLYJ2Z
+Icinga,POV9YQP
+IFTTT,PNXRLMS
+ignio-PD Integration,PCIR9S9
+InfluxData (email),P5LEPVU
+Infocyte,PWK61PU
+Inspector,PQI91Z5
+Instana,PTXDYRB
+Integromat,PVV5BGO
+Integry,PM61KSH
+Intello,PW8M4TM
+intermix.io,P9NLK75
+IO Informant,PGPWZUC
+ipPatrol,PSSVSCA
+IPSentry,PY3OLY6
+Iris Customer Support Visibility,PH67T6B
+Iron.io,PPQRO1B
+ISMD,P2ZMVP3
+ITmanager.net,PEULK4Q
+Ixia Hawkeye,POW3LMY
+Jenkins CI,PI6Y7SP
+JFrog Artifactory Notifications,PZ021XY
+JFrog Pipelines Changes,P0XKID8
+JFrog Xray Notifications,PD60GIA
+JovianX Platfrorm,P3ZVILV
+JupiterOne,PRL5KCX
+Kato,PL5WBIT
+Kayako,PTA1I0N
+Kentik,PCD8YFP
+Keynote,PTUXL6G
+Kibana,PVI6JFD
+Kumologica,P22FZNC
+Kuvasz,PMPMD8B
+LabTech,PHZROQL
+Lacework,P12NQDO
+LeanIX SI,POYOHAF
+Leftronic,P0JNPU5
+LibreNMS,P2HOL8J
+LightStep,PESAAVE
+Live Call Routing,PCJI5RZ
+Loadster,PQ19LDZ
+LogDNA,PS6XZUE
+Logentries,PEMHWX5
+Loggly,PB5EPSC
+LogicMonitor,P6N0SOM
+LogRocket,P5S3XJF
+Logstash,PVCCMM9
+Logtrust,P7R2L87
+Logz.io,PKDGCAW
+Lyatiss CloudWeaver,PLQOINW
+mackerel,PNWAMNY
+Mailhop,P466AX7
+McAfee Security Connected,PC21BJH
+MeerkatWatch,P0TOPW0
+Microsoft Cloud App Security,P8PQO4R
+Microsoft Flow,P41X4PM
+Microsoft OMS,PVZ93XH
+Microsoft SCOM,PSXMPW4
+Microsoft SCOM - Email,PA9TMLX
+Microsoft VSTS,PYCVI1Z
+monday.com,PKJGDJC
+MongoDB Cloud Manager,PRT2T0A
+Monit,P1D9SPB
+Monitis,PKU1VGR
+Monitive,PTDVERC
+Monitive,PHLCA2H
+Monte Carlo,PKVL5O1
+Moogsoft,PRXJHU0
+Munin,P2BI1SS
+Mux Data,PZLSFR7
+MxToolBox,P4PG76U
+My PagerDuty App,P2RTP86
+myDevices,PLNR3OG
+n8n,P5504J3
+Nagios XI,P0APW99
+Neptune.io,PXJCRLJ
+NetBeez,PFGGZSB
+NetCrunch,P8B5VQY
+NetCrunch,PWL3FJ5
+Netsparker,PB3PBJB
+Neustar®,PY1OL64
+Ninja-Eye,PTPOJZU
+Nobl9 SLO Platform,PNIB1FK
+NodePing,P4USDQC
+NodeSource N|Solid,PQQJWZ2
+Noggin 2.0,PI9P7W8
+NS1,PBMDSO8
+Obkio,PR7M0S0
+Observe,PMUVIVU
+Observium,PZCN3K6
+Odown,P0RHTWA
+OneCloud,PQXO7M7
+OP5 Monitor,PW6SMZ8
+openITCOCKPIT,P6DS5FR
+OpenNMS,PG1GB3J
+OpenNMS,PL4R22A
+OpsClarity,PEKW9LW
+OpsDash,PU834AK
+Opsee,PPDARN8
+OpsLevel,PY3EC3T
+Opsmatic,PLCSODN
+Opsview,PCNMV4D
+Oracle Cloud Infrastructure Monitoring,P3GEKKJ
+Oracle Management Cloud,PXAEYE0
+Oracle Service Cloud - OSvC,PCXEBLI
+Orca Security,PPA33LR
+Osano,PE6O76J
+OverOps,PN8RJU3
+Ovvy,P4F2NH3
+PagerDuty Community Login,P933PHA
+PagerDuty for Remedyforce,PRG85OF
+PagerDuty for Symphony,PVWZXFB
+PagerDuty for Work.com,P5DIF5M
+PagerInsights,PDUJS29
+Pandora FMS,PY7LUFR
+Panopta,P9UJCMM
+Papertrail,P1WZIDR
+PC Monitor,PPAUE2Q
+PC Uptime,PUJYNCM
+pganalyze,P7G8ALR
+Pingdom Server Monitor,PEYSGVF
+Pingometer,PPY6UTE
+Pingrely,P6Q62WH
+PingSafe,PP21HNE
+Pipedream,PLZFFL4
+Pliant & PagerDuty Connector,PWMFX4A
+Plumbr,PBGL9O7
+Postman,P936DF2
+Poweradmin,PDNSUGD
+Powercode,PBYOC9I
+Prefect Cloud,PC2USS4
+Productiv,PR7AE8T
+ProjectManager.com,P65QJ4E
+Prometheus,P1S0PW6
+PRTG,PUQINAL
+PRTG Notification For PagerDuty Events API v2,PM09ESG
+Pulseway,PY6FHMY
+Puppet,P6UFYE2
+Quantum Metric,PW16L1J
+Quest Spotlight Enterprise,PVBXQ6T
+Rackspace Cloud Monitoring,P1FXBLN
+Radio Mast,POTR2N0
+RapidSpike,PYO4509
+Raygun,PDWQO1Z
+RBLTracker,PLO0YBK
+Rearview,P809HBA
+Red Canary,P5ORG98
+Redmine,PRF5JTR
+Relay,PUVRSKE
+Reveille,PWNM4J1
+Riemann,PLMVEDM
+RigD,PCWZ262
+Rigor,PIP248G
+RoleUp,PKIMQNT
+Rollbar,PDT7AGE
+Rootly,POLJ72J
+Rundeck - Runbook Automation,PUPRRBY
+Runscope,PCWKOPZ
+SaltStack,P4TN3XJ
+ScaleGrid,P0R3THG
+Scalyr,PP5Z4ZY
+ScienceLogic,PSYNYCB
+Scout APM,PCWVB8A
+SearchStax,PM49F9K
+Securd DNS Firewall,PXUPKQI
+SecurityScorecard,PID2767
+Sedai,PM5SS2D
+Sematext,PD647G2
+Sentry,PKAPG94
+Sentry (Legacy),PKG4M95
+Server Density,PWSQFH4
+Serverless360,PQHKFSY
+Seyren,PYRY1RB
+Shinken,PTGBRZX
+Signal Sciences,PU2Z7HT
+SignalFx,PM7NL62
+Site Systems Software Inc.,PHW8B63
+Site24x7,PLH1HKV
+SiteUptime,PR74ZFE
+Skilljar,PAW5FIN
+Sleuth - track and improve DORA metrics,P9PXNV8
+SnappyFlow,PFM75OD
+Snitch,PXVNBKW
+SoferTech,P43IQLY
+SolarWinds N-able ,PKX7619
+SolarWinds NPM Legacy,PK83CYV
+SolarWinds Orion,P4B29MM
+Speedway,PSVPGDL
+Splunk (legacy),P4DQWYY
+SQL Monitor,P8XTDD1
+Stack Moxie,P9D4ZKP
+Stackdriver,PGR0VU2
+StackRox,PR117Z6
+StackStorm,POF1F7U
+Stathat,P9SYTRQ
+StatsD,P9TE376
+StatusCake,PT8A4LK
+StatusDashboard,PX9FZ7K
+StatusPage.io,PKIT8HE
+Statuspal Status Pages,PB51T56
+Steward,PG3K2TQ
+Stitch,P71B8YJ
+Strongloop,PN6RJ21
+Sumo Logic,PVW3TPM
+Sumo Logic Email Integration,P5CGWNY
+Swimlane,P13E9CB
+Symantec Security Monitoring Services,P0RRD1Q
+Sysdig,PJUN9KH
+Tattle,P30LUI6
+Teleport,PAA97ZG
+Temboo,PVN5A53
+Tenderly,PNFGAEZ
+Testomato,PU4KUT2
+testRigor,PZU3NR4
+Tesults,PA07KX4
+TheLoops,PVC03BD
+ThousandEyes,P1VU8KY
+Threat Stack,PVS7JHY
+Thundra,P6UUPXV
+Tideways,PXLCSQL
+Tines Security Automation,P28PK1Y
+Tivoli Netcool/OMNIbus,PQZKDEQ
+Torq,PX39TW2
+tray.io,PSFT9EA
+Trelica (Read-only),PZGN4EN
+Trelica (Read-write),PXPS503
+TrueSight Pulse,PFUD5MK
+unitQ Monitor,P0G1OOI
+Uptime.com,P2KUYTE
+UptimeRobot,P3B7A70
+Uptrends,PX0S2UE
+vCenter Server,PQ67E4R
+Verelo,PI7DH85
+Verkada,PO0YH6C
+VMware vRealize Operations Alert Events,P1V2YGZ
+vRealize Operations,PXNVVVT
+Watcher,PGD3LJG
+Wavefront,PB8JMAX
+Wavefront (Email),POHQ1G3
+Webmon,PGOC8IT
+WhatsUp Gold,PZIJAWT
+WhatsUp Gold – Email,PXOB5O9
+Workato,PBNYDJ2
+Wormly,P6VL8WI
+Wormly Webhooks,PARKJF1
+Xpect,PQNHNOZ
+Xplenty,PJJHZF0
+XPLG,PIBQSKC
+Zabbix Webhook (for 5.0 and 5.2) ,P486AM9
+Zapier,PYTJO0N
+Zenoss 3,PM9Z7EB
+Zenoss 4,PBRC5AY
+Zenoss 5,P18QFJJ
+Zerotect,PXOXEQH
+Zoho Cliq,PBWHGNV
+Zylo,P7KP2CK
+Imperva Incapsula,P8CKAWV
+DripStat,P0FGT2D
+vRealize Hyperic,PKQXZRM
+vRealize Log Insight,PZVAXNJ
+Cisco Network Assistant,PAYXTRO
+CloudHealth Technologies,P897AJW
+Ghost Inspector,PSVMP42
+Live Call Routing,PT40YEC
+Nephos6 v6sonar,PCTTRL7
+Pass through webhooks for development,PL9HLJ4
+Runbook.io,P9AQZGT
