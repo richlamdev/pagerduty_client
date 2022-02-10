@@ -311,7 +311,7 @@ def main():
     parser = argparse.ArgumentParser (add_help=True,
              description="""CLI interface for pagerduty API.
              \n\nView help page for each command for more information
-             \n\n" + "python3 pd_client.py getkeys -h
+             \n\npython3 pd_client.py getkeys -h
              \n\npython3 pd_client.py setsvc -h
              \n\npython3 pd_client.py delsvc -h""",
              formatter_class=argparse.RawDescriptionHelpFormatter)
